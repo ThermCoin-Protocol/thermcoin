@@ -21,6 +21,14 @@ namespace CryptoNote
 {
     namespace parameters
     {
+        // ThermCoin Parameters
+        const uint64_t PREMINE_AMT = 6060000000000;
+        const uint64_t MINTING_BLOCK = 5; // 1051920 Blocks (1 Year)
+
+        const char THERM_DATA_URL[] = "https://api.eia.gov/v2/international/data/";
+        const char URL_PARAMS[] = "&frequency=annual&data[0]=value&facets[activityId][]=1&facets[productId][]=44&facets[countryRegionId][]=WORL&facets[unit][]=QBTU&sort[0][column]=period&sort[0][direction]=desc&offset=0&length=5000";
+        const char API_KEY[] = "?api_key=tEWETkY9IW1uPrf0U3zPwaQUONX2Yc0ybiNL6U1j";
+
         const uint64_t DIFFICULTY_TARGET = 30; // seconds
 
         const uint32_t CRYPTONOTE_MAX_BLOCK_NUMBER = 500'000'000;
@@ -398,5 +406,6 @@ namespace CryptoNote
         // "45.32.138.7:11897", // extra
         // "46.214.70.196:11897", // CuveeRO
         // "89.203.235.107:11897" // CuveeCZ
+        //./miner --threads 8 --log-level 3 --address ThrmYnKK41QNGVfa7kmmyh3M8WMrmKb5eay2ELQfe6h2WQLRrm8w677XGHaGeZmjc9LEszLmYYEn8B7fP7K2otzDBhHBktZoDob
     };
 } // namespace CryptoNote

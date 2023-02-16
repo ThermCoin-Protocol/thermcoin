@@ -194,61 +194,74 @@ namespace CryptoNote
         uint64_t &reward,
         int64_t &emissionChange) const
     {
-        assert(alreadyGeneratedCoins <= m_moneySupply);
-        assert(m_emissionSpeedFactor > 0 && m_emissionSpeedFactor <= 8 * sizeof(uint64_t));
-
-        uint64_t baseReward = (m_moneySupply - alreadyGeneratedCoins) >> m_emissionSpeedFactor;
-
-        size_t blockGrantedFullRewardZone = blockGrantedFullRewardZoneByBlockVersion(blockMajorVersion);
-        medianSize = std::max(medianSize, blockGrantedFullRewardZone);
-        if (currentBlockSize > UINT64_C(2) * medianSize)
-        {
-            logger(TRACE) << "Block cumulative size is too big: " << currentBlockSize << ", expected less than "
-                          << 2 * medianSize;
-            return false;
-        }
-
-        uint64_t penalizedBaseReward = getPenalizedAmount(baseReward, medianSize, currentBlockSize);
-        uint64_t penalizedFee =
-            blockMajorVersion >= BLOCK_MAJOR_VERSION_2 ? getPenalizedAmount(fee, medianSize, currentBlockSize) : fee;
-
-        emissionChange = static_cast<int64_t>(penalizedBaseReward - (fee - penalizedFee));
-        reward = penalizedBaseReward + penalizedFee;
-
-        if (blockIndex >= CryptoNote::parameters::CRYPTONOTE_STOP_BLOCK_NUMBER)
-        {
-            emissionChange -= static_cast<int64_t>(reward);
-
+        if(blockIndex == 1) {
+            reward = PREMINE_AMT;
+            return true;
+        } else if(blockIndex > 0 && blockIndex % MINTING_BLOCK == 0) {
+            reward = PREMINE_AMT;
+            return true;
+        } else {
             reward = 0;
-
-            logger(TRACE) << "Chain has been halted. Block reward adjusted to 0";
+            return true;
         }
-        else if (blockIndex >= CryptoNote::parameters::CRYPTONOTE_RAMP_DOWN_BLOCK_NUMBER)
-        {
-            // we add 1 to the block index so that we get a "height" as we call it here
-            const double remaining_blocks = CryptoNote::parameters::CRYPTONOTE_STOP_BLOCK_NUMBER - (blockIndex + 1);
-
-            const double ramp_window =
-                (CryptoNote::parameters::CRYPTONOTE_STOP_BLOCK_NUMBER
-                 - CryptoNote::parameters::CRYPTONOTE_RAMP_DOWN_BLOCK_NUMBER);
-
-            logger(TRACE) << "Chain ramp period is " << std::setprecision(0) << std::to_string(ramp_window)
-                          << " blocks. There are " << remaining_blocks << " blocks remaining.";
-
-            auto percent_of_reward = (remaining_blocks > 0) ? remaining_blocks / ramp_window : 0;
-
-            const auto new_reward = static_cast<uint64_t>(static_cast<double>(reward) * percent_of_reward);
-
-            emissionChange -= static_cast<int64_t>(reward - new_reward);
-
-            reward = new_reward;
-
-            logger(DEBUGGING) << "Chain ramp down period active. Block reward adjusted to " << std::setprecision(2)
-                              << std::fixed << (percent_of_reward * 100) << "% of normal. New reward amount "
-                              << std::to_string(new_reward);
-        }
-
         return true;
+
+        // OLD BLOCK REWARD
+        // assert(alreadyGeneratedCoins <= m_moneySupply);
+        // assert(m_emissionSpeedFactor > 0 && m_emissionSpeedFactor <= 8 * sizeof(uint64_t));
+
+        // uint64_t baseReward = (m_moneySupply - alreadyGeneratedCoins) >> m_emissionSpeedFactor;
+
+        // size_t blockGrantedFullRewardZone = blockGrantedFullRewardZoneByBlockVersion(blockMajorVersion);
+        // medianSize = std::max(medianSize, blockGrantedFullRewardZone);
+        // if (currentBlockSize > UINT64_C(2) * medianSize)
+        // {
+        //     logger(TRACE) << "Block cumulative size is too big: " << currentBlockSize << ", expected less than "
+        //                   << 2 * medianSize;
+        //     return false;
+        // }
+
+        // uint64_t penalizedBaseReward = getPenalizedAmount(baseReward, medianSize, currentBlockSize);
+        // uint64_t penalizedFee =
+        //     blockMajorVersion >= BLOCK_MAJOR_VERSION_2 ? getPenalizedAmount(fee, medianSize, currentBlockSize) : fee;
+
+        // emissionChange = static_cast<int64_t>(penalizedBaseReward - (fee - penalizedFee));
+        // reward = penalizedBaseReward + penalizedFee;
+
+        // if (blockIndex >= CryptoNote::parameters::CRYPTONOTE_STOP_BLOCK_NUMBER)
+        // {
+        //     emissionChange -= static_cast<int64_t>(reward);
+
+        //     reward = 0;
+
+        //     logger(TRACE) << "Chain has been halted. Block reward adjusted to 0";
+        // }
+        // else if (blockIndex >= CryptoNote::parameters::CRYPTONOTE_RAMP_DOWN_BLOCK_NUMBER)
+        // {
+        //     // we add 1 to the block index so that we get a "height" as we call it here
+        //     const double remaining_blocks = CryptoNote::parameters::CRYPTONOTE_STOP_BLOCK_NUMBER - (blockIndex + 1);
+
+        //     const double ramp_window =
+        //         (CryptoNote::parameters::CRYPTONOTE_STOP_BLOCK_NUMBER
+        //          - CryptoNote::parameters::CRYPTONOTE_RAMP_DOWN_BLOCK_NUMBER);
+
+        //     logger(TRACE) << "Chain ramp period is " << std::setprecision(0) << std::to_string(ramp_window)
+        //                   << " blocks. There are " << remaining_blocks << " blocks remaining.";
+
+        //     auto percent_of_reward = (remaining_blocks > 0) ? remaining_blocks / ramp_window : 0;
+
+        //     const auto new_reward = static_cast<uint64_t>(static_cast<double>(reward) * percent_of_reward);
+
+        //     emissionChange -= static_cast<int64_t>(reward - new_reward);
+
+        //     reward = new_reward;
+
+        //     logger(DEBUGGING) << "Chain ramp down period active. Block reward adjusted to " << std::setprecision(2)
+        //                       << std::fixed << (percent_of_reward * 100) << "% of normal. New reward amount "
+        //                       << std::to_string(new_reward);
+        // }
+
+        // return true;
     }
 
     size_t Currency::maxBlockCumulativeSize(uint64_t height) const
