@@ -197,7 +197,7 @@ namespace CryptoNote
         if(blockIndex == 1) {
             reward = CryptoNote::parameters:PREMINE_AMT;
             return true;
-        } else if(blockIndex > 0 && blockIndex % CryptoNote::parameters:MINTING_BLOCK == 0) {
+        } else if(blockIndex > 0 && blockIndex % CryptoNote::parameters::MINTING_BLOCK == 0) {
             reward = CryptoNote::parameters:PREMINE_AMT;
             return true;
         } else {
