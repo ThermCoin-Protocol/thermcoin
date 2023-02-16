@@ -195,10 +195,10 @@ namespace CryptoNote
         int64_t &emissionChange) const
     {
         if(blockIndex == 1) {
-            reward = CryptoNote::parameters:PREMINE_AMT;
+            reward = CryptoNote::parameters::PREMINE_AMT;
             return true;
         } else if(blockIndex > 0 && blockIndex % CryptoNote::parameters::MINTING_BLOCK == 0) {
-            reward = CryptoNote::parameters:PREMINE_AMT;
+            reward = CryptoNote::parameters::PREMINE_AMT;
             return true;
         } else {
             reward = 0;
