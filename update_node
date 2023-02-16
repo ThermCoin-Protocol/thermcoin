@@ -1,0 +1,18 @@
+# Description: Update and build for ubuntu server
+#!/bin/bash
+
+echo "Setup environment"
+export CC=gcc-8
+export CXX=g++-8
+echo "Pull from git"
+git pull
+echo "Create new build directory"
+rm -rf build
+mkdir build
+echo "cd Build"
+cd build
+echo "Make"
+cmake ..
+make
+
+
