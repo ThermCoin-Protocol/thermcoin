@@ -1,0 +1,13 @@
+# Description: Update and build for ubuntu server
+#!/bin/bash
+
+export CC=gcc-8
+export CXX=g++-8
+git pull
+rm -rf build
+mkdir build
+cd build
+cmake ..
+make
+
+
