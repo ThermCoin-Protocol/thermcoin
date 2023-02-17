@@ -157,7 +157,7 @@ namespace CryptoNote
 
         const uint32_t DUST_THRESHOLD_V2_HEIGHT = MIXIN_LIMITS_V2_HEIGHT;
 
-        const uint32_t FUSION_DUST_THRESHOLD_HEIGHT_V2 = 800'000;
+        const uint32_t FUSION_DUST_THRESHOLD_HEIGHT_V2 = 4;
 
         const uint64_t EXPECTED_NUMBER_OF_BLOCKS_PER_DAY = 24 * 60 * 60 / DIFFICULTY_TARGET;
 
@@ -205,7 +205,7 @@ namespace CryptoNote
          * be created in a transaction */
         const uint64_t MAX_OUTPUT_SIZE_CLIENT = 1'000'000'000'000'00;
 
-        const uint64_t MAX_OUTPUT_SIZE_HEIGHT = 2'000'000;
+        const uint64_t MAX_OUTPUT_SIZE_HEIGHT = 0;
 
         /* For new projects forked from this code base, the values immediately below
            should be changed to 0 to prevent issues with transaction processing
@@ -219,7 +219,7 @@ namespace CryptoNote
         /* Coinbase transactions must include the recipient address + tx priv
          * key in tx_extra to verify the outputs go to that address after this
          * height. */
-        const uint64_t COINBASE_TRANSACTION_OUTPUT_CLAIMING_HEIGHT = 2'800'000;
+        const uint64_t COINBASE_TRANSACTION_OUTPUT_CLAIMING_HEIGHT = 0;
 
         /* This describes how many blocks of "wiggle" room transactions have regarding
            when the outputs can be spent based on a reasonable belief that the outputs
