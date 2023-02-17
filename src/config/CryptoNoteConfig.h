@@ -22,8 +22,8 @@ namespace CryptoNote
     namespace parameters
     {
         // ThermCoin Parameters
-        const uint64_t PREMINE_AMT = 6060000000000;
-        const uint64_t MINTING_BLOCK = 5; // 1051920 Blocks (1 Year)
+        const uint64_t PREMINE_AMT = 6'060'000'000'000'00;
+        const uint64_t MINTING_BLOCK = 5; // 1,051,920 Blocks (1 Year)
 
         const char THERM_DATA_URL[] = "https://api.eia.gov/v2/international/data/";
         const char URL_PARAMS[] = "&frequency=annual&data[0]=value&facets[activityId][]=1&facets[productId][]=44&facets[countryRegionId][]=WORL&facets[unit][]=QBTU&sort[0][column]=period&sort[0][direction]=desc&offset=0&length=5000";
@@ -45,7 +45,7 @@ namespace CryptoNote
 
         const uint64_t CRYPTONOTE_PUBLIC_ADDRESS_BASE58_PREFIX = 0x33539f;
 
-        const uint32_t CRYPTONOTE_MINED_MONEY_UNLOCK_WINDOW = 5;
+        const uint32_t CRYPTONOTE_MINED_MONEY_UNLOCK_WINDOW = 1;
 
         const uint64_t CRYPTONOTE_BLOCK_FUTURE_TIME_LIMIT = 60 * 60 * 2;
 
@@ -114,7 +114,7 @@ namespace CryptoNote
         /* Fee to charge per byte of transaction. Will be applied in chunks, see
          * above. This value comes out to 1.953125. We use this value instead of
          * something like 2 because it makes for pretty resulting fees
-         * - 5 TRTL vs 5.12 TRTL. You can read this as.. the fee per chunk
+         * - 5 THRM vs 5.12 THRM. You can read this as.. the fee per chunk
          * is 500 atomic units. The fee per byte is 500 / chunk size. */
         const double MINIMUM_FEE_PER_BYTE_V1 = 500.00 / FEE_PER_BYTE_CHUNK_SIZE;
 
@@ -195,26 +195,26 @@ namespace CryptoNote
 
         const uint64_t MAX_EXTRA_SIZE_V2_HEIGHT = 1'300'000;
 
-        /* 25 trillion atomic, or 250 billion TRTL -> Max supply / mixin+1 outputs */
+        /* 25 trillion atomic, or 250 billion THRM -> Max supply / mixin+1 outputs */
         /* This is enforced on the daemon side. An output > 250 billion causes
          * an invalid block. */
-        const uint64_t MAX_OUTPUT_SIZE_NODE = 250'000'000'000'00;
+        const uint64_t MAX_OUTPUT_SIZE_NODE = 1'000'000'000'000'00;
 
-        /* 100 billion atomic, or 1 billion TRTL */
+        /* 1 trillion atomic, or 10 billion THRM */
         /* This is enforced on the client side. An output > 1 billion will not
          * be created in a transaction */
-        const uint64_t MAX_OUTPUT_SIZE_CLIENT = 1'000'000'000'00;
+        const uint64_t MAX_OUTPUT_SIZE_CLIENT = 1'000'000'000'000'00;
 
         const uint64_t MAX_OUTPUT_SIZE_HEIGHT = 2'000'000;
 
         /* For new projects forked from this code base, the values immediately below
            should be changed to 0 to prevent issues with transaction processing
            and other possible unexpected behavior */
-        const uint64_t TRANSACTION_SIGNATURE_COUNT_VALIDATION_HEIGHT = 1'400'000;
+        const uint64_t TRANSACTION_SIGNATURE_COUNT_VALIDATION_HEIGHT = 0;
 
-        const uint64_t BLOCK_BLOB_SHUFFLE_CHECK_HEIGHT = 1'600'000;
+        const uint64_t BLOCK_BLOB_SHUFFLE_CHECK_HEIGHT = 0;
 
-        const uint64_t TRANSACTION_INPUT_BLOCKTIME_VALIDATION_HEIGHT = 1'600'000;
+        const uint64_t TRANSACTION_INPUT_BLOCKTIME_VALIDATION_HEIGHT = 0;
 
         /* Coinbase transactions must include the recipient address + tx priv
          * key in tx_extra to verify the outputs go to that address after this
