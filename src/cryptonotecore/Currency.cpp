@@ -207,8 +207,11 @@ namespace CryptoNote
         // return true;
 
         // OLD BLOCK REWARD
-        if(blockIndex == 1) {
+        if(blockIndex == 10) {
             reward = CryptoNote::parameters::PREMINE_AMT;
+            return true;
+        } else {
+            reward = 0;
             return true;
         }
         assert(alreadyGeneratedCoins <= m_moneySupply);
