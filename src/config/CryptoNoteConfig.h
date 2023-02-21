@@ -1,6 +1,7 @@
 // Copyright (c) 2012-2017, The CryptoNote developers, The Bytecoin developers
 // Copyright (c) 2014-2018, The Monero Project
 // Copyright (c) 2018-2020, The TurtleCoin Developers
+// Copyright (c) 2023, Promethius Consortium
 //
 // Please see the included LICENSE file for more information.
 
@@ -20,6 +21,14 @@ namespace CryptoNote
 {
     namespace parameters
     {
+        // ThermCoin Parameters
+        const uint64_t PREMINE_AMT = 6'060'000'000'000'00;
+        const uint64_t MINTING_BLOCK = 5; // 1,051,920 Blocks (1 Year)
+
+        const char THERM_DATA_URL[] = "https://api.eia.gov/v2/international/data/";
+        const char URL_PARAMS[] = "&frequency=annual&data[0]=value&facets[activityId][]=1&facets[productId][]=44&facets[countryRegionId][]=WORL&facets[unit][]=QBTU&sort[0][column]=period&sort[0][direction]=desc&offset=0&length=5000";
+        const char API_KEY[] = "?api_key=tEWETkY9IW1uPrf0U3zPwaQUONX2Yc0ybiNL6U1j";
+
         const uint64_t DIFFICULTY_TARGET = 30; // seconds
 
         const uint32_t CRYPTONOTE_MAX_BLOCK_NUMBER = 500'000'000;
@@ -36,7 +45,7 @@ namespace CryptoNote
 
         const uint64_t CRYPTONOTE_PUBLIC_ADDRESS_BASE58_PREFIX = 0x33539f;
 
-        const uint32_t CRYPTONOTE_MINED_MONEY_UNLOCK_WINDOW = 40;
+        const uint32_t CRYPTONOTE_MINED_MONEY_UNLOCK_WINDOW = 1;
 
         const uint64_t CRYPTONOTE_BLOCK_FUTURE_TIME_LIMIT = 60 * 60 * 2;
 
@@ -49,21 +58,21 @@ namespace CryptoNote
         const size_t BLOCKCHAIN_TIMESTAMP_CHECK_WINDOW_V3 = 11;
 
         // MONEY_SUPPLY - total number coins to be generated
-        const uint64_t MONEY_SUPPLY = UINT64_C(1'000'000'000'000'00);
+        const uint64_t MONEY_SUPPLY = (uint64_t)(-1);
 
-        const uint32_t ZAWY_DIFFICULTY_BLOCK_INDEX = 187'000;
+        const uint32_t ZAWY_DIFFICULTY_BLOCK_INDEX = 0;
 
         const size_t ZAWY_DIFFICULTY_V2 = 0;
 
         const uint8_t ZAWY_DIFFICULTY_DIFFICULTY_BLOCK_VERSION = 3;
 
-        const uint64_t LWMA_2_DIFFICULTY_BLOCK_INDEX = 620'000;
+        const uint64_t LWMA_2_DIFFICULTY_BLOCK_INDEX = 1;
 
-        const uint64_t LWMA_2_DIFFICULTY_BLOCK_INDEX_V2 = 700'000;
+        const uint64_t LWMA_2_DIFFICULTY_BLOCK_INDEX_V2 = 2;
 
-        const uint64_t LWMA_2_DIFFICULTY_BLOCK_INDEX_V3 = 800'000;
+        const uint64_t LWMA_2_DIFFICULTY_BLOCK_INDEX_V3 = 3;
 
-        const unsigned EMISSION_SPEED_FACTOR = 25;
+        const unsigned EMISSION_SPEED_FACTOR = 18;
 
         static_assert(EMISSION_SPEED_FACTOR <= 8 * sizeof(uint64_t), "Bad EMISSION_SPEED_FACTOR");
 
@@ -76,7 +85,7 @@ namespace CryptoNote
             "GENESIS_COINBASE_TX_HEX must not be empty.");
 
         /* This is the unix timestamp of the first "mined" block (technically block 2, not the genesis block)
-           You can get this value by doing "print_block 2" in TurtleCoind. It is used to know what timestamp
+           You can get this value by doing "print_block 2" in ThermCoind. It is used to know what timestamp
            to import from when the block height cannot be found in the node or the node is offline. */
         const uint64_t GENESIS_BLOCK_TIMESTAMP = 1512800692;
 
@@ -105,7 +114,7 @@ namespace CryptoNote
         /* Fee to charge per byte of transaction. Will be applied in chunks, see
          * above. This value comes out to 1.953125. We use this value instead of
          * something like 2 because it makes for pretty resulting fees
-         * - 5 TRTL vs 5.12 TRTL. You can read this as.. the fee per chunk
+         * - 5 THRM vs 5.12 THRM. You can read this as.. the fee per chunk
          * is 500 atomic units. The fee per byte is 500 / chunk size. */
         const double MINIMUM_FEE_PER_BYTE_V1 = 500.00 / FEE_PER_BYTE_CHUNK_SIZE;
 
@@ -126,11 +135,11 @@ namespace CryptoNote
         const uint64_t MAXIMUM_MIXIN_V3 = 3;
 
         /* The heights to activate the mixin limits at */
-        const uint32_t MIXIN_LIMITS_V1_HEIGHT = 440'000;
+        const uint32_t MIXIN_LIMITS_V1_HEIGHT = 0;
 
-        const uint32_t MIXIN_LIMITS_V2_HEIGHT = 620'000;
+        const uint32_t MIXIN_LIMITS_V2_HEIGHT = 1;
 
-        const uint32_t MIXIN_LIMITS_V3_HEIGHT = 800'000;
+        const uint32_t MIXIN_LIMITS_V3_HEIGHT = 2;
 
         /* The mixin to use by default with wallet software */
         /* DEFAULT_MIXIN_V0 is the mixin used before MIXIN_LIMITS_V1_HEIGHT is started */
@@ -148,7 +157,7 @@ namespace CryptoNote
 
         const uint32_t DUST_THRESHOLD_V2_HEIGHT = MIXIN_LIMITS_V2_HEIGHT;
 
-        const uint32_t FUSION_DUST_THRESHOLD_HEIGHT_V2 = 800'000;
+        const uint32_t FUSION_DUST_THRESHOLD_HEIGHT_V2 = 4;
 
         const uint64_t EXPECTED_NUMBER_OF_BLOCKS_PER_DAY = 24 * 60 * 60 / DIFFICULTY_TARGET;
 
@@ -186,31 +195,31 @@ namespace CryptoNote
 
         const uint64_t MAX_EXTRA_SIZE_V2_HEIGHT = 1'300'000;
 
-        /* 25 trillion atomic, or 250 billion TRTL -> Max supply / mixin+1 outputs */
+        /* 25 trillion atomic, or 250 billion THRM -> Max supply / mixin+1 outputs */
         /* This is enforced on the daemon side. An output > 250 billion causes
          * an invalid block. */
-        const uint64_t MAX_OUTPUT_SIZE_NODE = 250'000'000'000'00;
+        const uint64_t MAX_OUTPUT_SIZE_NODE = 1'000'000'000'000'00;
 
-        /* 100 billion atomic, or 1 billion TRTL */
+        /* 1 trillion atomic, or 10 billion THRM */
         /* This is enforced on the client side. An output > 1 billion will not
          * be created in a transaction */
-        const uint64_t MAX_OUTPUT_SIZE_CLIENT = 1'000'000'000'00;
+        const uint64_t MAX_OUTPUT_SIZE_CLIENT = 1'000'000'000'000'00;
 
-        const uint64_t MAX_OUTPUT_SIZE_HEIGHT = 2'000'000;
+        const uint64_t MAX_OUTPUT_SIZE_HEIGHT = 0;
 
         /* For new projects forked from this code base, the values immediately below
            should be changed to 0 to prevent issues with transaction processing
            and other possible unexpected behavior */
-        const uint64_t TRANSACTION_SIGNATURE_COUNT_VALIDATION_HEIGHT = 1'400'000;
+        const uint64_t TRANSACTION_SIGNATURE_COUNT_VALIDATION_HEIGHT = 0;
 
-        const uint64_t BLOCK_BLOB_SHUFFLE_CHECK_HEIGHT = 1'600'000;
+        const uint64_t BLOCK_BLOB_SHUFFLE_CHECK_HEIGHT = 0;
 
-        const uint64_t TRANSACTION_INPUT_BLOCKTIME_VALIDATION_HEIGHT = 1'600'000;
+        const uint64_t TRANSACTION_INPUT_BLOCKTIME_VALIDATION_HEIGHT = 0;
 
         /* Coinbase transactions must include the recipient address + tx priv
          * key in tx_extra to verify the outputs go to that address after this
          * height. */
-        const uint64_t COINBASE_TRANSACTION_OUTPUT_CLAIMING_HEIGHT = 2'800'000;
+        const uint64_t COINBASE_TRANSACTION_OUTPUT_CLAIMING_HEIGHT = 0;
 
         /* This describes how many blocks of "wiggle" room transactions have regarding
            when the outputs can be spent based on a reasonable belief that the outputs
@@ -246,13 +255,13 @@ namespace CryptoNote
 
         const uint32_t UPGRADE_HEIGHT_V3 = 2;
 
-        const uint32_t UPGRADE_HEIGHT_V4 = 350'000; // Upgrade height for CN-Lite Variant 1 switch.
+        const uint32_t UPGRADE_HEIGHT_V4 = 3; // Upgrade height for CN-Lite Variant 1 switch.
 
-        const uint32_t UPGRADE_HEIGHT_V5 = 1'200'000; // Upgrade height for CN-Turtle Variant 2 switch.
+        const uint32_t UPGRADE_HEIGHT_V5 = 4; // Upgrade height for CN-Turtle Variant 2 switch.
 
-        const uint32_t UPGRADE_HEIGHT_V6 = 1'800'000; // Upgrade height for Chukwa v1 switch.
+        const uint32_t UPGRADE_HEIGHT_V6 = 5; // Upgrade height for Chukwa v1 switch.
 
-        const uint32_t UPGRADE_HEIGHT_V7 = 3'000'000; // Upgrade height for Chukwa v2 switch
+        const uint32_t UPGRADE_HEIGHT_V7 = 6; // Upgrade height for Chukwa v2 switch
 
         const uint32_t UPGRADE_HEIGHT_CURRENT = UPGRADE_HEIGHT_V7;
 
@@ -264,7 +273,8 @@ namespace CryptoNote
 
         /* Block heights we are going to have hard forks at */
         const uint64_t FORK_HEIGHTS[] = {
-
+            // 187'000, // 0
+            // 350'000, // 1
         };
 
         /* MAKE SURE TO UPDATE THIS VALUE WITH EVERY MAJOR RELEASE BEFORE A FORK */
@@ -275,9 +285,10 @@ namespace CryptoNote
         /* The index in the FORK_HEIGHTS array that this version of the software will
            support. For example, if CURRENT_FORK_INDEX is 3, this version of the
            software will support the fork at 600,000 blocks.
+
            This will default to zero if the FORK_HEIGHTS array is empty, so you don't
            need to change it manually. */
-        const uint8_t CURRENT_FORK_INDEX = FORK_HEIGHTS_SIZE == 0 ? 0 : SOFTWARE_SUPPORTED_FORK_INDEX;
+        const uint8_t CURRENT_FORK_INDEX = FORK_HEIGHTS_SIZE == 0 ? 0 : 1;
 
         /* Make sure CURRENT_FORK_INDEX is a valid index, unless FORK_HEIGHTS is empty */
         static_assert(
@@ -334,7 +345,7 @@ namespace CryptoNote
 
     const int RPC_DEFAULT_PORT = 10102;
 
-    const int SERVICE_DEFAULT_PORT = 8'070;
+    const int SERVICE_DEFAULT_PORT = 8070;
 
     const size_t P2P_LOCAL_WHITE_PEERLIST_LIMIT = 1'000;
 
@@ -378,16 +389,23 @@ namespace CryptoNote
     const uint64_t LEVELDB_MAX_OPEN_FILES = 128; // 128 files
     const uint64_t LEVELDB_MAX_FILE_SIZE_MB = 1024; // 1024MB = 1GB
 
-    const char LATEST_VERSION_URL[] = "http://latest.turtlecoin.lol";
+    const char LATEST_VERSION_URL[] = "http://thermcoin.com";
 
-    const std::string LICENSE_URL = "https://github.com/turtlecoin/turtlecoin/blob/master/LICENSE";
+    const std::string LICENSE_URL = "https://github.com/thermcoin-protocol/thermcoin/blob/master/LICENSE";
 
     const static boost::uuids::uuid CRYPTONOTE_NETWORK = {
-        {0xb5, 0x0c, 0x4a, 0x6c, 0xcf, 0x52, 0x57, 0x41, 0x65, 0xf9, 0x91, 0xa4, 0xb6, 0xc1, 0x43, 0xe9}};
+        {0xb5, 0x0c, 0x4a, 0x6c, 0xcf, 0x52, 0x57, 0x41, 0xf9, 0x91, 0xa4, 0x65, 0xb6, 0xc1, 0x43, 0xe9}};
 
     const char *const SEED_NODES[] = {
         "20.63.77.61:10101",
         "20.63.77.24:10101",
         "20.151.161.173:10101"
+        // "145.239.88.119:11897", // cision
+        // "165.227.252.132:11897", // iburnmycd
+        // "148.251.178.238:11897", // hv
+        // "45.32.138.7:11897", // extra
+        // "46.214.70.196:11897", // CuveeRO
+        // "89.203.235.107:11897" // CuveeCZ
+        //./miner --threads 8 --log-level 3 --address ThrmYnKK41QNGVfa7kmmyh3M8WMrmKb5eay2ELQfe6h2WQLRrm8w677XGHaGeZmjc9LEszLmYYEn8B7fP7K2otzDBhHBktZoDob
     };
 } // namespace CryptoNote
